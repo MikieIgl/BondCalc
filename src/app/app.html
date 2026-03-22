@@ -1,0 +1,183 @@
+<div class="calculator-wrapper">
+  <div class="calculator-container">
+    <header class="calculator-header">
+      <h1 class="title">{{ title() }}</h1>
+    </header>
+
+    <div class="main-content">
+      <div class="left-column">
+        <section class="panel input-panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Входные данные</h2>
+          </div>
+          
+          <div class="panel-body">
+            <div class="inputs-grid">
+              <div class="input-group">
+                <label class="input-label">
+                  <span class="label-text">T, лет</span>
+                  <input 
+                    type="number" 
+                    [ngModel]="T()" 
+                    (ngModelChange)="T.set($event)"
+                    (blur)="validateT(T())"
+                    (keydown.enter)="calc()"
+                    class="input-field"
+                  />
+                </label>
+              </div>
+
+              <div class="input-group">
+                <label class="input-label">
+                  <span class="label-text">k</span>
+                  <input 
+                    type="number" 
+                    [ngModel]="k()" 
+                    (ngModelChange)="k.set($event)"
+                    (blur)="validateK(k())"
+                    (keydown.enter)="calc()"
+                    class="input-field"
+                  />
+                </label>
+              </div>
+
+              <div class="input-group">
+                <label class="input-label">
+                  <span class="label-text">t</span>
+                  <input 
+                    type="number" 
+                    [ngModel]="t()" 
+                    (ngModelChange)="t.set($event)"
+                    (blur)="validateTParam(t())"
+                    (keydown.enter)="calc()"
+                    class="input-field"
+                  />
+                </label>
+              </div>
+
+              <div class="input-group">
+                <label class="input-label">
+                  <span class="label-text">r₀, %</span>
+                  <input 
+                    type="number" 
+                    [ngModel]="proc()" 
+                    (ngModelChange)="proc.set($event)"
+                    (blur)="validateProc(proc())"
+                    (keydown.enter)="calc()"
+                    class="input-field"
+                  />
+                </label>
+              </div>
+
+              <div class="input-group">
+                <label class="input-label">
+                  <span class="label-text">E, %</span>
+                  <input 
+                    type="number" 
+                    [ngModel]="E()" 
+                    (ngModelChange)="E.set($event)"
+                    (blur)="validateE(E())"
+                    (keydown.enter)="calc()"
+                    class="input-field"
+                  />
+                </label>
+              </div>
+            </div>
+
+            <button tuiButton appearance="primary" size="l" (click)="calc()" class="calc-button">
+              Рассчитать
+            </button>
+          </div>
+        </section>
+
+        <section class="panel results-panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Результаты</h2>
+          </div>
+          
+          <div class="panel-body">
+            <div class="results-list">
+              <div class="result-item">
+                <span class="result-label">{{ zcbLabel }}</span>
+                <span class="result-value primary">{{ priceResult() }}</span>
+              </div>
+
+              <div class="result-item">
+                <span class="result-label">Форвард</span>
+                <span class="result-value">{{ forwardResult() }}</span>
+              </div>
+
+              <div class="result-item">
+                <span class="result-label">Фьючерс</span>
+                <span class="result-value">{{ futuresResult() }}</span>
+              </div>
+
+              <div class="result-item">
+                <span class="result-label">Опцион Call</span>
+                <span class="result-value">{{ callOptionResult() }}</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <aside class="info-panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Справка</h2>
+        </div>
+        
+        <div class="panel-body">
+          <div class="info-grid">
+            <div class="info-column">
+              <h3 class="info-section-title">Параметры</h3>
+              <dl class="info-list">
+                <div class="info-term">
+                  <dt>T</dt>
+                  <dd>Срок модели (лет). Используется для построения {{ T() }}-периодной биномиальной модели процентной ставки.</dd>
+                </div>
+                <div class="info-term">
+                  <dt>k</dt>
+                  <dd>Момент исполнения фьючерсного контракта на облигацию ZCB{{ T() }}.</dd>
+                </div>
+                <div class="info-term">
+                  <dt>t</dt>
+                  <dd>Момент исполнения форвардного контракта на бескупонную облигацию ZCB{{ T() }}.</dd>
+                </div>
+                <div class="info-term">
+                  <dt>r₀</dt>
+                  <dd>Начальная процентная ставка (%). Используется для построения дерева ставок.</dd>
+                </div>
+                <div class="info-term">
+                  <dt>E</dt>
+                  <dd>Страйк опциона (%). Цена исполнения опциона Call на фьючерс.</dd>
+                </div>
+              </dl>
+            </div>
+            
+            <div class="info-column">
+              <h3 class="info-section-title">Результаты</h3>
+              <dl class="info-list">
+                <div class="info-term">
+                  <dt>Цена ZCB{{ T() }}</dt>
+                  <dd>{{ priceDescription }}</dd>
+                </div>
+                <div class="info-term">
+                  <dt>Форвард</dt>
+                  <dd>{{ forwardDescription }}</dd>
+                </div>
+                <div class="info-term">
+                  <dt>Фьючерс</dt>
+                  <dd>{{ futuresDescription }}</dd>
+                </div>
+                <div class="info-term">
+                  <dt>Опцион Call</dt>
+                  <dd>{{ callDescription }}</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
